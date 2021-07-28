@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Create toy</title>
+</head>
+<body>
+<form action="#" th:action="@{/toy-create}" th:object="${toy}" method="post">
+  <label for="name">Name</label>
+  <input type="text" th:field="*{name}" id="name" placeholder="Name">
+  <label for="price">Price</label>
+  <input type="text" th:field="*{price}" id="price" placeholder="price">
+  <label for="count">Count</label>
+  <input type="text" th:field="*{count}" id="count" placeholder="count">
+  <input type="submit" value="Create Toy">
+</form>
+</body>
+</html>
