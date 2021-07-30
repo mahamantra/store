@@ -2,30 +2,29 @@ package com.example.store.controller;
 
 import com.example.store.model.Toy;
 import com.example.store.service.ToyService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequiredArgsConstructor
 public class ToyController {
 
     private final ToyService toyService;
 
-    @Autowired
-    public ToyController(ToyService toyService) {
-        this.toyService = toyService;
-    }
-
     @GetMapping("/toys")
-    public String findAll(Model model) {
+    public ResponseEntity<List<Toy>> findAll() {
         List<Toy> toys = toyService.findAll();
-        model.addAttribute("toys", toys);
-        return "toy-list";
+        return toys != null && !toys.isEmpty()
+                ? new ResponseEntity<>(toys, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/toy-create")
