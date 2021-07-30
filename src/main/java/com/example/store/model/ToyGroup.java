@@ -4,12 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
 @Data
 @Entity
-@Table(name = "TOY")
-public class Toy {
+@Table(name = "toy_group")
+public class ToyGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +18,4 @@ public class Toy {
     @NotNull
     @Column(unique = true, nullable = false)
     private String name;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "TOY_GROUP_ID", nullable = false)
-    private ToyGroup toyGroup;
-
-    @NotNull
-    @Column(nullable = false)
-    private BigDecimal price;
 }
