@@ -1,35 +1,18 @@
 package com.example.store.service;
 
 import com.example.store.model.Toy;
-import com.example.store.repository.ToyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class ToyService {
+public interface ToyService {
 
-    private final ToyRepository toyRepository;
+    Toy findById(Long id);
 
-    @Autowired
-    public ToyService(ToyRepository toyRepository) {
-        this.toyRepository = toyRepository;
-    }
+    List<Toy> findAll();
 
-    public Toy findById(Long id) {
-        return toyRepository.getById(id);
-    }
+    Toy saveToy(Toy toy);
 
-    public List<Toy> findAll() {
-        return toyRepository.findAll();
-    }
+    void deleteById(Long id);
 
-    public Toy saveToy(Toy toy) {
-        return toyRepository.save(toy);
-    }
-
-    public void deleteById(Long id) {
-        toyRepository.deleteById(id);
-    }
+    boolean update(Toy toy,long id);
 }
