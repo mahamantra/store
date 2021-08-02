@@ -1,0 +1,295 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1627634036342-1
+      author: igor_kim (generated)
+      changes:
+  - changeSet:
+      id: 1627895268607-1
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: INVOICEPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: timestamp
+            tableName: INVOICE
+  - changeSet:
+      id: 1627895268607-2
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: INVOICE_ITEMPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: count
+                  type: INTEGER
+              - column:
+                  name: invoice_id
+                  type: BIGINT
+              - column:
+                  name: toy_id
+                  type: BIGINT
+            tableName: INVOICE_ITEM
+  - changeSet:
+      id: 1627895268607-3
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: ORDER_ITEMPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: SHOP_ORDER_ID
+                  type: BIGINT
+              - column:
+                  name: TOY_ID
+                  type: BIGINT
+            tableName: ORDER_ITEM
+  - changeSet:
+      id: 1627895268607-4
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: SHOPPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+            tableName: SHOP
+  - changeSet:
+      id: 1627895268607-5
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: SHOP_ITEMPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: count
+                  type: INTEGER
+              - column:
+                  name: SHOP_ID
+                  type: BIGINT
+              - column:
+                  name: TOY_ID
+                  type: BIGINT
+            tableName: SHOP_ITEM
+  - changeSet:
+      id: 1627895268607-6
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: SHOP_ORDERPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: timestamp
+            tableName: SHOP_ORDER
+  - changeSet:
+      id: 1627895268607-7
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: TOYPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: numeric(19, 2)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: TOY_GROUP_ID
+                  type: BIGINT
+            tableName: TOY
+  - changeSet:
+      id: 1627895268607-8
+      author: igor_kim (generated)
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: toy_groupPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+            tableName: toy_group
+  - changeSet:
+      id: 1627895268607-9
+      author: igor_kim (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: UC_SHOPNAME_COL
+            tableName: SHOP
+  - changeSet:
+      id: 1627895268607-10
+      author: igor_kim (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: UC_TOYNAME_COL
+            tableName: TOY
+  - changeSet:
+      id: 1627895268607-11
+      author: igor_kim (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: UC_TOY_GROUPNAME_COL
+            tableName: toy_group
+  - changeSet:
+      id: 1627895268607-12
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: TOY_GROUP_ID
+            baseTableName: TOY
+            constraintName: FK7n1uwv5ae44ptkec3w4x8qm9t
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: toy_group
+            validate: true
+  - changeSet:
+      id: 1627895268607-13
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: SHOP_ORDER_ID
+            baseTableName: ORDER_ITEM
+            constraintName: FK80nyt8dkua7e2pisrrjjo5q4b
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: SHOP_ORDER
+            validate: true
+  - changeSet:
+      id: 1627895268607-14
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: SHOP_ID
+            baseTableName: SHOP_ITEM
+            constraintName: FK9nd7ehcdec2bq27a5t60o15gf
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: SHOP
+            validate: true
+  - changeSet:
+      id: 1627895268607-15
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: TOY_ID
+            baseTableName: SHOP_ITEM
+            constraintName: FKgn6gbnrb1pvyj1qorwymj73ey
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: TOY
+            validate: true
+  - changeSet:
+      id: 1627895268607-16
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: invoice_id
+            baseTableName: INVOICE_ITEM
+            constraintName: FKimebty2802clt9cswr41o8g5p
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: INVOICE
+            validate: true
+  - changeSet:
+      id: 1627895268607-17
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: TOY_ID
+            baseTableName: ORDER_ITEM
+            constraintName: FKpiuunl221nqkfhm6fgve5co3x
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: TOY
+            validate: true
+  - changeSet:
+      id: 1627895268607-18
+      author: igor_kim (generated)
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: toy_id
+            baseTableName: INVOICE_ITEM
+            constraintName: FKqdh8ytwyb678ag6f6bl7meocc
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: TOY
+            validate: true
