@@ -1,7 +1,12 @@
 package com.example.store.controller;
 
+import com.example.store.mapper.ToyMapper;
 import com.example.store.model.Toy;
+import com.example.store.model.dto.ToyDto;
 import com.example.store.service.ToyService;
+import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,13 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@Api
 public class ToyController {
 
     private final ToyService toyService;
-
-    public ToyController(ToyService toyService) {
-        this.toyService = toyService;
-    }
 
     @GetMapping("/toys")
     public ResponseEntity<List<Toy>> findAll() {
@@ -24,8 +27,8 @@ public class ToyController {
     }
 
     @PostMapping("/toys")
-    public ResponseEntity<?> create(@RequestBody Toy toy){
-        toyService.saveToy(toy);
+    public ResponseEntity<?> create(@RequestBody ToyDto toyDto){
+        toyService.saveToy(Mappers.getMapper(ToyMapper.class).toToy(toyDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
