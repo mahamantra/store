@@ -28,7 +28,7 @@ public class ToyController {
 
     @PostMapping("/toys")
     public ResponseEntity<?> create(@RequestBody ToyDto toyDto){
-        toyService.saveToy(Mappers.getMapper(ToyMapper.class).toToy(toyDto));
+        toyService.save(Mappers.getMapper(ToyMapper.class).toToy(toyDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -39,8 +39,8 @@ public class ToyController {
     }
 
     @PutMapping("/toys/{id}")
-    public ResponseEntity<?> update(@PathVariable(name = "id") long id,@RequestBody Toy toy){
-        boolean updated = toyService.update(toy, id);
+    public ResponseEntity<?> update(@PathVariable(name = "id") long id,@RequestBody ToyDto toyDto){
+        boolean updated = toyService.update(toyDto, id);
 
         return updated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
@@ -49,5 +49,10 @@ public class ToyController {
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id){
         toyService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        return new ResponseEntity(e.getMessage().toString(),HttpStatus.OK);
     }
 }

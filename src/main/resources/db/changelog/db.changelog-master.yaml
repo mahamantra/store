@@ -293,3 +293,112 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: TOY
             validate: true
+  - changeSet:
+      id: 1628063359543-7
+      author: igor_kim (generated)
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: approve
+                  type: boolean
+            tableName: INVOICE
+  - changeSet:
+     id: 1628063359543-8
+     author: igor_kim
+     changes:
+       - update:
+          columns:
+            - column:
+                name: approve
+                value: false
+          tableName: INVOICE
+  - changeSet:
+      id: 1628064494562-8
+      author: igor_kim (generated)
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: count
+                  type: int4
+                  defaultValue: '0'
+            tableName: TOY
+  - changeSet:
+      id: 1628064494562-9
+      author: igor_kim (generated)
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: shop_item
+            constraintName: FK9nd7ehcdec2bq27a5t60o15gf
+  - changeSet:
+      id: 1628064494562-10
+      author: igor_kim (generated)
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: shop_item
+            constraintName: FKgn6gbnrb1pvyj1qorwymj73ey
+  - changeSet:
+      id: 1628064494562-11
+      author: igor_kim (generated)
+      changes:
+        - dropTable:
+            tableName: shop_item
+  - changeSet:
+      id: 1628064494562-1
+      author: igor_kim (generated)
+      changes:
+        - addNotNullConstraint:
+            columnDataType: boolean
+            columnName: approve
+            tableName: INVOICE
+            validate: true
+  - changeSet:
+      id: 1628064494562-2
+      author: igor_kim (generated)
+      changes:
+        - dropUniqueConstraint:
+            constraintName: UC_SHOPNAME_COL
+            tableName: SHOP
+  - changeSet:
+      id: 1628064494562-3
+      author: igor_kim (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: UC_SHOPNAME_COL
+            tableName: SHOP
+  - changeSet:
+      id: 1628064494562-4
+      author: igor_kim (generated)
+      changes:
+        - dropUniqueConstraint:
+            constraintName: UC_TOYNAME_COL
+            tableName: TOY
+  - changeSet:
+      id: 1628064494562-5
+      author: igor_kim (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: UC_TOYNAME_COL
+            tableName: TOY
+  - changeSet:
+      id: 1628064494562-6
+      author: igor_kim (generated)
+      changes:
+        - dropUniqueConstraint:
+            constraintName: UC_TOY_GROUPNAME_COL
+            tableName: toy_group
+  - changeSet:
+      id: 1628064494562-7
+      author: igor_kim (generated)
+      changes:
+        - addUniqueConstraint:
+            columnNames: name
+            constraintName: UC_TOY_GROUPNAME_COL
+            tableName: toy_group
+
+

@@ -25,4 +25,8 @@ public class Toy extends BaseEntity{
     @NotNull
     @Column(nullable = false)
     private BigDecimal price;
+
+    @NotNull
+    @Column(nullable = false)
+    private Integer count;
 }

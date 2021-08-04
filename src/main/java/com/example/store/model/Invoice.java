@@ -16,7 +16,9 @@ public class Invoice extends BaseEntity{
     @Column(nullable = false)
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private boolean approve;
+
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceItem> invoiceItems;
 
 }
