@@ -1,18 +1,43 @@
 package com.example.store.service;
 
 import com.example.store.model.Toy;
+import com.example.store.model.dto.ToyDto;
+import com.example.store.repository.ToyRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ToyService {
+@Service
+@RequiredArgsConstructor
+public class ToyService {
 
-    Toy findById(Long id);
+    private final ToyRepository toyRepository;
 
-    List<Toy> findAll();
+    public Toy findById(Long id) {
+        return toyRepository.findById(id).get();
+    }
 
-    Toy saveToy(Toy toy);
+    public List<Toy> findAll() {
+        return toyRepository.findAll();
+    }
 
-    void deleteById(Long id);
+    public Toy save(Toy toy) {
+        return toyRepository.save(toy);
+    }
 
-    boolean update(Toy toy,long id);
+    public void deleteById(Long id) {
+        toyRepository.deleteById(id);
+    }
+
+    public boolean update(ToyDto toyDto, long id) {
+        Toy toyToUpdate = findById(id);
+
+        toyToUpdate.setName(toyDto.getName());
+        toyToUpdate.setToyGroup(toyDto.getToyGroup());
+        toyToUpdate.setPrice(toyDto.getPrice());
+        toyRepository.save(toyToUpdate);
+
+        return true;
+    }
 }
