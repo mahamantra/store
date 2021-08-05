@@ -1,5 +1,6 @@
 package com.example.store.service;
 
+import com.example.store.model.BaseEntity;
 import com.example.store.model.Invoice;
 import com.example.store.model.InvoiceItem;
 import com.example.store.model.Toy;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,32 +20,47 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final ToyRepository toyRepository;
 
-//    Toy findById(Long id){
-//
-//    };
+    public List<Invoice> findAll() {
+        return invoiceRepository.findAll();
+    }
 
-    public List<Invoice> findAll(){
-       return invoiceRepository.findAll();
-    };
 
     @Transactional
-    public Invoice save(Invoice invoice){
-        invoice.getInvoiceItems().forEach(invoiceItem -> invoiceItem.setInvoice(invoice));
-        Invoice saveedInvoce = invoiceRepository.save(invoice);
-        List<InvoiceItem> invoiceItems = saveedInvoce.getInvoiceItems();
+    public void save(Invoice invoice) {
+        List<InvoiceItem> invoiceItems = invoice.getInvoiceItems();
+
+        List<Toy> toys = invoiceItems.stream()
+                .map(InvoiceItem::getToy)
+                .collect(Collectors.toList());
+
+        List<Long> idList = toys.stream()
+                .map(BaseEntity::getId)
+                .collect(Collectors.toList());
+
+        List<Toy> existToys = toyRepository.findByIdIn(idList);
+
+        checkToys(toys, existToys);
+
+        invoiceItems.forEach(invoiceItem -> invoiceItem.setInvoice(invoice));
+        invoiceRepository.save(invoice);
 
         for (InvoiceItem invoiceItem : invoiceItems) {
             Toy toy = invoiceItem.getToy();
-            Optional<Toy> optionalToy = toyRepository.findById(toy.getId());
-            Toy editableToy = optionalToy.get();
-            editableToy.setCount(editableToy.getCount()+invoiceItem.getCount());
-            toyRepository.save(editableToy);
+            for (Toy existToy : existToys) {
+                if (toy.equals(existToy)) {
+                    existToy.setCount(existToy.getCount() + invoiceItem.getCount());
+                }
+            }
         }
 
-        return invoiceRepository.save(invoice);
-    };
+        toyRepository.saveAll(existToys);
+    }
 
-//    void deleteById(Long id);
-//
-//    boolean update(InvoiceDto invoiceDto, long id);
+    private void checkToys(List<Toy> toys, List<Toy> existToys){
+        for (Toy toy : toys) {
+            if(!existToys.contains(toy)){
+                throw new RuntimeException("Toy with id=" + toy.getId() + " not found");
+            }
+        }
+    }
 }
