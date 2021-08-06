@@ -400,5 +400,18 @@ databaseChangeLog:
             columnNames: name
             constraintName: UC_TOY_GROUPNAME_COL
             tableName: toy_group
+  - changeSet:
+      id: 1628075048104-8
+      author: igor_kim (generated)
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: count
+                  type: int4
+                  defaultValue: '0'
+            tableName: ORDER_ITEM
 
 

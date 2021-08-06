@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class ToyController {
             value = "Список всех игрушек"
     )
     @GetMapping("/toys")
+    @PreAuthorize("hasAuthority('developers:read')")
     public ResponseEntity<List<Toy>> findAll() {
         List<Toy> toys = toyService.findAll();
         return new ResponseEntity<>(toys, HttpStatus.OK);
@@ -36,6 +38,7 @@ public class ToyController {
             value = "Создать игрушку"
     )
     @PostMapping("/toys")
+    @PreAuthorize("hasAuthority('developers:write')")
     public ResponseEntity<?> create(@RequestBody ToyDto toyDto){
         toyService.save(Mappers.getMapper(ToyMapper.class).toToy(toyDto));
         return new ResponseEntity<>(HttpStatus.CREATED);

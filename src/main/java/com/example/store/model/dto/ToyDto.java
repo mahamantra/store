@@ -11,4 +11,5 @@ public class ToyDto {
     private String name;
     private ToyGroup toyGroup;
     private BigDecimal price;
+    private Integer count;
 }
